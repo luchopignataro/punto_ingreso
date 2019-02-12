@@ -1,0 +1,187 @@
+<odoo>
+    <data>
+        <!-- <record  model="ir.ui.view" id="x_patient_form_view">
+            <field name="name">partner.patient</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <notebook position="replace" >
+                    <page string="Estudios">
+                        <field name="x_services_id" widget="list"/>
+                    </page>
+                </notebook>
+            </field>
+        </record> -->
+
+        <record model="ir.ui.view" id="patient_tree_view">
+            <field name="name">patient.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <tree position="replace">
+                    <tree string="Patient Tree">
+                        <field name="x_Nombre"/>
+                        <field name="x_DNI"/>
+                        <field name="email"/>
+                        <field name="x_osocial"/>
+                        <field name="x_telefono"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+
+<!--
+<odoo>
+    <data>
+        <record  model="ir.ui.view" id="partner_patient_form_view">
+            <field name="name">partner.patient</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <group position="inside">
+                    <field name="is_patient"/>
+                    <field name="is_doctor"/>
+                    <field name="is_visitor"/>
+                </group>
+                <xpath expr="//group//group[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <notebook position="attributes">
+                  <attribute name="invisible">1</attribute>
+                </notebook>
+                <notebook position="after">
+                    <notebook attrs="{'invisible': [('is_patient','=',False)]}">
+                        <page string="Mamotests">
+                            <group>
+                                <field name="first_name"/>
+                                <field name="last_name"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </notebook>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="contact_cat_list_action">
+            <field name="name">Patient cat view</field>
+            <field name="res_model">res.partner.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="res.partner.category" id="patient">
+            <field name="name">Patient</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="patient_list_action">
+            <field name="name">Patient</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first patient</p>
+            </field>
+        </record>
+
+
+
+        <menuitem id="main_puntoingreso_menu" name="Punto ingreso" web_icon="puntoingreso,static/description/icon.png"/>
+        <menuitem id="puntoingreso_menu" name="Punto ingreso"
+                  parent="main_puntoingreso_menu"/>
+        <menuitem id="patient_menu" name="Patients" parent="puntoingreso_menu"
+                  action="patient_list_action"/>
+
+        <record model="ir.ui.view" id="patient_tree_view">
+            <field name="name">patient.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Patient Tree">
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="dni"/>
+                    <field name="age"/>
+                    <field name="sex"/>
+                    <field name="phone"/>
+                    <field name="profile"/>
+                    <field name="birthdate"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="patient_form_view">
+            <field name="name">patient.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Patient Form">
+                    <sheet>
+                        <group>
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="dni"/>
+                            <field name="age"/>
+                            <field name="sex"/>
+                            <field name="phone"/>
+                            <field name="birthdate"/>
+                        </group>
+                        <notebook>
+                            <page string="Profile">
+                                <field name="profile"/>
+                            </page>
+                            <page string="Comments">
+                                <field name="comments"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="patient_search_view">
+            <field name="name">patient.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="dni"/>
+                    <field name="email"/>
+                    <field name="age"/>
+                    <field name="sex"/>
+                    <field name="phone"/>
+                    <field name="birthdate"/>
+
+                    <filter name="alergics" string="Patients alergics"
+                            domain="[('is_alergic', '=', True)]"/>
+
+                    <group string="Group By">
+                        <filter name="sex" string="Sex" context="{'group_by': 'sex'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="patient_tree_view">
+            <field name="name">patient.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Patient Tree">
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="dni"/>
+                    <field name="age"/>
+                    <field name="email"/>
+                    <field name="sex"/>
+                    <field name="phone"/>
+                    <field name="profile"/>
+                    <field name="birthdate"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
+ -->

@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <record model="workflow" id="wkf_session">
+            <field name="name">Estudios workflow</field>
+            <field name="osv">puntoingreso.service</field>
+            <field name="on_create">True</field>
+        </record>
+
+    <!-- BOTONES -> IZQUIERDA -->
+
+        <record model="workflow.activity" id="pending">
+            <field name="name">Pendiente</field>
+            <field name="wkf_id" ref="wkf_session"/>
+            <!-- <field name="flow_start" eval="True"/> -->
+            <field name="kind">function</field>
+            <field name="action">action_pending()</field>
+        </record>
+
+        <record model="workflow.activity" id="confirm">
+            <field name="name">Entregado</field>
+            <field name="wkf_id" ref="wkf_session"/>
+            <field name="kind">function</field>
+            <field name="action">action_confirm()</field>
+        </record>
+
+    <!-- FIN BOTONES -->
+
+
+    <!-- VISTAS -> FLOW DERECHO -->
+
+        <record model="workflow.transition" id="person_pending_to_confirm">
+            <field name="act_from" ref="pending"/>
+            <field name="act_to" ref="confirm"/>
+            <field name="signal">Informe entregado</field>
+        </record>
+
+        <record model="workflow.transition" id="person_confirm_to_pending">
+            <field name="act_from" ref="confirm"/>
+            <field name="act_to" ref="pending"/>
+            <field name="signal">Pendiente de entrega</field>
+        </record>
+
+    <!-- FIN VISTAS -->
+
+    </data>
+</odoo>

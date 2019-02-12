@@ -1,0 +1,45 @@
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="module_category_secretaria">
+            <field name="name">Secretaría</field>
+            <field name="description">Secretarias</field>
+            <field name="sequence">2</field>
+        </record>
+        <record id="group_puntoingreso_secretaria" model="res.groups">
+            <field name="name">Secretaria</field>
+            <field name="category_id" ref="module_category_secretaria"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+
+        <!-- <record id="group_mayep_coordinacion_general" model="res.groups">
+            <field name="name">Coordinador general</field>
+            <field name="category_id" ref="module_category_secretaria"/>
+            <field name="implied_ids" eval="[(4, ref('group_mayep_coordinacion_zonal'))]"/>
+        </record> -->
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<!--         <record model="ir.module.category" id="module_category_mayep">
+            <field name="name">MAyEP</field>
+            <field name="description">Módulo que permite crear Personas y búsquedas laborales relacionadas.</field>
+            <field name="sequence">7</field>
+        </record>
+        <record id="group_mayep_direccion_general" model="res.groups">
+            <field name="name">Dirección general</field>
+            <field name="category_id" ref="module_category_mayep"/>
+        </record>
+        <record id="group_mayep_administrativo" model="res.groups">
+            <field name="name">Administrativo (Búsquedas y Personas)</field>
+            <field name="category_id" ref="module_category_mayep"/>
+            <field name="implied_ids" eval="[(4, ref('group_mayep_direccion_general'))]"/>
+        </record>
+        <record id="group_mayep_administrador_general" model="res.groups">
+            <field name="name">Administrador general</field>
+            <field name="category_id" ref="module_category_mayep"/>
+            <field name="implied_ids" eval="[(4, ref('group_mayep_administrativo'))]"/>
+        </record>
+
+ -->
+
+    </data>
+</odoo>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_paciente" model="report.paperformat">
+            <field name="name">Paciente A4</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">95</field>
+        </record>
+
+        <template id="report_patient_data">
+            <t t-call="report.html_container">
+                <div class="header">
+                </div>
+                <div class="page">
+                    <h2>DATOS DEL PACIENTE</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+
+                                <!-- DATOS PERSONALES -->
+                                <tr>
+                                    <h4>DATOS PERSONALES</h4>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Nombre</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.name"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Apellido</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_Apellido"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>DNI</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_DNI"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Sexo</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_sexo"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Edad</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.age"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Fecha de nacimiento</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.birthdate"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Teléfono</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.phone"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Dirección</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.street"></p></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+                                <!-- DATOS CLINICOS -->
+                                <tr>
+                                    <h4>DATOS CLÍNICOS</h4>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Es alérgico?</b></p></td>
+                                    <t t-if="o.x_alergico == True">
+                                        <td style="width: 45%;"><p>Si</p></td>
+                                    </t>
+                                    <t t-if="o.x_alergico == False">
+                                        <td style="width: 45%;"><p>No</p></td>
+                                    </t>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Centro</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_centro"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Etiquetas</b></p></td>
+                                    <td style="width: 45%;">
+                                        <t t-foreach="o.x_etiquetas_id" t-as="e">
+                                            <span t-field="e.name"></span>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Origen lead</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_fuente"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Obra social</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_osocial"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Categoría</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_categoria"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Nivel</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_nivel"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Estado del informe</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_informe"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Comentarios</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_comentarios"></p></td>
+                                </tr>
+                               <tr>
+                                    <td style="width: 45%;"><p><b>Estado</b></p></td>
+                                    <td style="width: 45%;"><p t-field="o.x_estado"></p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 45%;"><p><b>Sub estado</b></p></td>
+                                    <t t-if="o.x_estado == 'contactado'">
+                                        <td style="width: 45%;"><p t-field="o.x_subestado_ac"></p></td>
+                                    </t>
+                                    <t t-if="o.x_estado == 'negociacion'">
+                                        <td style="width: 45%;"><p t-field="o.x_subestado_ng"></p></td>
+                                    </t>
+                                    <t t-if="o.x_estado == 'noventa'">
+                                        <td style="width: 45%;"><p t-field="o.x_subestado_sv"></p></td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- ESTUDIOS REALIZADOS -->
+                    <!-- <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <h4>ESTUDIOS REALIZADOS</h4>
+                            </tr>
+                            <tr>
+                                <th>Centro</th>
+                                <th>Estudio</th>
+                                <th>Médico</th>
+                                <th>Turno vía</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+
+                                 <tr>
+                                    <td><p t-field="o.x_services_id.center"></p></td>
+                                    <td><span t-field="o.x_services_id.service_id"></span> <span  t-field="o.x_services_id.variant_id"></span></td>
+                                    <td><p t-field="o.x_services_id.doctor_ids"></p></td>
+                                    <td><p t-field="o.x_services_id.turno"></p></td>
+                                    <td><p t-field="o.x_services_id.service_date"></p></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table> -->
+                </div>
+            </t>
+        </template>
+
+        <report
+            id="report_patient_print"
+            model="res.partner"
+            string="Reporte de Paciente"
+            report_type="qweb-pdf"
+            paperformat="puntoingreso.paperformat_paciente"
+            name="puntoingreso.report_patient_data"
+            file="puntoingreso.report_patient_data"
+        />
+    </data>
+</odoo>

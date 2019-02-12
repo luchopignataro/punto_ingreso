@@ -1,0 +1,141 @@
+<odoo>
+    <data>
+        <record model="workflow" id="wkf_paciente">
+            <field name="name">Pacientes workflow</field>
+            <field name="osv">res.partner</field>
+            <!-- <field name="on_create">True</field> -->
+        </record>
+
+    <!-- BOTONES -> IZQUIERDA -->
+
+         <record model="workflow.activity" id="potencial">
+            <field name="name">Potencial cliente</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <!-- <field name="flow_start" eval="True"/> -->
+            <field name="kind">function</field>
+            <field name="action">action_potencial()</field>
+        </record>
+
+         <record model="workflow.activity" id="contactado">
+            <field name="name">Contactado</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_contactado()</field>
+        </record>
+
+        <record model="workflow.activity" id="negociacion">
+            <field name="name">Negociación en progreso</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_negociacion()</field>
+        </record>
+
+         <record model="workflow.activity" id="spam">
+            <field name="name">Spam</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_spam()</field>
+        </record>
+
+        <record model="workflow.activity" id="venta">
+            <field name="name">Con venta</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_venta()</field>
+        </record>
+
+        <record model="workflow.activity" id="noventa">
+            <field name="name">Sin venta</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_noventa()</field>
+        </record>
+
+<!--
+        <record model="workflow.activity" id="pendiente">
+            <field name="name">Pendiente</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_pendiente()</field>
+        </record>
+
+        <record model="workflow.activity" id="entregado">
+            <field name="name">Entregado</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_entregado()</field>
+        </record>
+
+        <record model="workflow.activity" id="frecuente">
+            <field name="name">Cliente frecuente</field>
+            <field name="wkf_id" ref="wkf_paciente"/>
+            <field name="kind">function</field>
+            <field name="action">action_frecuente()</field>
+        </record>
+ -->
+
+
+    <!-- FIN BOTONES -->
+
+
+    <!-- VISTAS -> FLOW DERECHO -->
+
+        <record model="workflow.transition" id="cliente_potencial">
+            <field name="act_from" ref="venta"/>
+            <field name="act_to" ref="potencial"/>
+            <field name="signal">Cliente potencial</field>
+        </record>
+
+        <record model="workflow.transition" id="cliente_contactado">
+            <field name="act_from" ref="potencial"/>
+            <field name="act_to" ref="contactado"/>
+            <field name="signal">Contactado</field>
+        </record>
+
+        <record model="workflow.transition" id="en_spam">
+            <field name="act_from" ref="contactado"/>
+            <field name="act_to" ref="spam"/>
+            <field name="signal">Spam</field>
+        </record>
+
+        <record model="workflow.transition" id="en_progreso">
+            <field name="act_from" ref="contactado"/>
+            <field name="act_to" ref="negociacion"/>
+            <field name="signal">Negociación en progreso</field>
+        </record>
+
+        <record model="workflow.transition" id="sin_venta">
+            <field name="act_from" ref="negociacion"/>
+            <field name="act_to" ref="noventa"/>
+            <field name="signal">Sin venta</field>
+        </record>
+
+        <record model="workflow.transition" id="con_venta">
+            <field name="act_from" ref="negociacion"/>
+            <field name="act_to" ref="venta"/>
+            <field name="signal">Con venta</field>
+        </record>
+<!--
+        <record model="workflow.transition" id="pendiente_entrega">
+            <field name="act_from" ref="venta"/>
+            <field name="act_to" ref="pendiente"/>
+            <field name="signal">Pendiente de entrega</field>
+        </record>
+
+        <record model="workflow.transition" id="informe_entregado">
+            <field name="act_from" ref="pendiente"/>
+            <field name="act_to" ref="entregado"/>
+            <field name="signal">Informe entregado</field>
+        </record>
+
+        <record model="workflow.transition" id="cliente_frecuente">
+            <field name="act_from" ref="entregado"/>
+            <field name="act_to" ref="pendiente"/>
+            <field name="signal">Cliente frecuente</field>
+        </record>
+ -->
+
+    <!-- FIN VISTAS -->
+
+    </data>
+</odoo>

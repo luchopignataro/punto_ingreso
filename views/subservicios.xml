@@ -1,0 +1,80 @@
+<odoo>
+    <data>
+<!--         <record model="ir.ui.view" id="puntoingreso_subservicio_form_view">
+            <field name="name">subservicio.form</field>
+            <field name="model">puntoingreso.subservicios</field>
+            <field name="arch" type="xml">
+                    <form string="Service Form">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="servicio_principal" string="Estudio principal"/>
+                                    <label for="sub_servicios_ids"/>
+                                    <field name="sub_servicios_ids" string="Estudios ligados" editable="bottom" widget="many2many"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+
+
+
+
+        <record model="ir.ui.view" id="subservice_tree_view">
+            <field name="name">service.tree</field>
+            <field name="model">puntoingreso.subservicios</field>
+            <field name="arch" type="xml">
+
+                <tree string="SubService Tree">
+                    <field name="servicio_principal" string="Estudio principal"/>
+                    <field name="sub_servicios_ids" string="Estudios ligados"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="subservice_list_action">
+            <field name="name">Subservicios</field>
+            <field name="res_model">puntoingreso.subservicios</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('subservice_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('puntoingreso_subservicio_form_view')})]"/>
+        </record>
+
+
+        <menuitem id="subservicios_menu" name="Subservicios" parent="dashboard_datos_maestros" action="subservice_list_action"/>
+
+ -->
+
+
+        <record id="product_subservicio_form_view" model="ir.ui.view">
+            <field name="name">product.subservicios</field>
+            <field name="model">product.product</field>
+            <field name="mode">primary</field><!--
+            <field name="priority" eval="6" /> -->
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@class='oe_title']" position="after">
+                    <label for="attribute_value_ids" string="Seleccione centro para el producto"></label>
+                    <field name="attribute_value_ids" widget="many2many_tags" groups="product.group_product_variant"/>
+                </xpath>
+
+                <xpath expr="//page[@name='sales']" position="after">
+                    <page name="subservicio" string="Subservicios" groups="product.group_product_variant">
+                        <group>
+                         <div>
+                             <label for="inc_subservicio"/>
+                             <field name="inc_subservicio"/>
+                         </div>
+                            <field attrs="{'invisible': [('inc_subservicio', '=', False)]}" string="Servicios ligados" name="child_ids" editable="bottom" widget="many2many"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

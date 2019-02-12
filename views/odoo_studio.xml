@@ -1,0 +1,595 @@
+<odoo>
+    <data>
+
+        <!-- Append css to assets_backend [Use assets_frontend if website] -->
+        <template id="assets_backend" name="font estados" inherit_id="web.assets_backend">
+             <xpath expr="." position="inside">
+                   <link rel="stylesheet" href="/puntoingreso/static/src/css/style.css"/>
+             </xpath>
+        </template>
+
+        <record  model="ir.ui.view" id="partner_patient_form_view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <!-- <field name="priority">99</field> -->
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='street2']" position="attributes">
+                    <attribute name="placeholder">Localidad</attribute>
+                </xpath>
+                <xpath expr="//field[@name='company_type']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="placeholder">Provincia</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='ref'][not(ancestor::field)]" position="after">
+                    <field name="x_is_doctor"/>
+                    <field name="x_is_patient"/>
+                    <field name="x_is_visitor"/>
+                </xpath>
+                <xpath expr="//field[@name='website'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="string">Provincia</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="help">Provincia a la que pertenece la plaza que visita</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="placeholder"/>
+                </xpath>
+                <xpath expr="//field[@name='category_id'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="string">Localidad</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="placeholder"/>
+                </xpath>
+                <xpath expr="//field[@name='category_id'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="help">Localidad a la que pertenece la plaza que visita</attribute>
+                </xpath>
+                <xpath expr="//field[@name='function'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='fax'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="string">DNI</attribute>
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='title'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="string">Producto que presenta</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='category_id'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='phone'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='mobile'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='fax'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='title'][not(ancestor::field)]" position="replace"/>
+                <xpath expr="//field[@name='lang'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lang'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="invisible">False</attribute>
+                </xpath>
+                <xpath expr="/form[1]/sheet[1]/group[1]" position="after">
+                    <field name="website"/>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="x_DNI"/>
+                </xpath>
+                <xpath expr="//field[@name='x_DNI'][not(ancestor::field)]" position="before">
+                    <field name="x_Nombre"/>
+                    <field name="x_Apellido"/>
+                    <field name="name" class="oculto hide" string="Nombre completo" placeholder="NO ESCRIBIR EN ESTE CAMPO, SE COMPLETA SOLO"/>
+                </xpath>
+                <xpath expr="//field[@name='x_DNI'][not(ancestor::field)]" position="after">
+                    <field name="x_sexo" string="Sexo"/>
+                    <field name="age"/>
+                    <field name="birthdate"/>
+                    <field name="phone"/>
+                    <!-- <field name="email"/> -->
+                </xpath>
+
+                <xpath expr="/form[1]/sheet[1]/group[1]/group[2]" position="inside">
+                    <field name="x_centro" attrs="{'invisible': [('x_is_patient','=',False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='x_centro'][not(ancestor::field)]" position="after">
+                    <field name="x_osocial" options="{'no_create_edit': True, 'no_create':True, 'no_open':True}" string="Obra Social" attrs="{'invisible': [('x_is_patient', '=', False)]}"/>
+                    <field name="n_afiliado" attrs="{'invisible': [('x_is_patient', '=', False)], 'readonly':[('x_osocial', '=', False)]}"/>
+                    <field name="x_categoria" string="Categoría" attrs="{'invisible': [('x_is_patient','=', False)]}" groups="base.group_system"/>
+                    <!-- <field name="x_alergico" attrs="{'invisible': [('x_is_patient', '=', False)]}"/> -->
+                    <field name="x_nivel" string="Nivel" attrs="{'invisible': [('x_is_doctor', '=', False)]}" groups="base.group_system"/>
+                    <field name="x_informe"/>
+                    <field name="x_comentarios"/>
+                    <!-- <field name="x_subestado_ac" attrs="{'invisible': [('x_estado', '!=', 'contactado')]}"/>
+                    <field name="x_subestado_ng" attrs="{'invisible': [('x_estado', '!=', 'negociacion')]}"/>
+                    <field name="x_subestado_sv" attrs="{'invisible': [('x_estado', '!=', 'noventa')]}"/> -->
+                </xpath>
+                <xpath expr="//field[@name='x_centro'][not(ancestor::field)]" position="after">
+                    <field name="x_perfil" attrs="{'invisible': [('x_is_doctor','=', False)]}" groups="base.group_system"/>
+                    <field name="x_nivel" string="Nivel" attrs="{'invisible': [('x_is_doctor','=', False)]}" groups="base.group_system"/>
+                    <field name="x_matricula" string="Matrícula" attrs="{'invisible': [('x_is_doctor','=', False)]}"/>
+                    <field name="x_especialidad" attrs="{'invisible': [('x_is_doctor','=', False)]}"/>
+                    <field name="x_categoria" string="Categoría" attrs="{'invisible': [('x_is_doctor','=', False)]}"/>
+                </xpath>
+
+
+
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="options">{'no_create_edit': True, 'no_create':True, 'no_open':True}</attribute>
+                    <attribute name="domain">{'invisible': [('x_osocial','=',False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='city']" position="attributes">
+                    <attribute name="options">{'no_create_edit': True, 'no_create':True, 'no_open':True}</attribute>
+                </xpath>
+                 <xpath expr="//field[@name='lang'][not(ancestor::field)]" position="attributes">
+                    <attribute name="groups"/>
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+
+                <xpath expr="//field[@name='x_osocial'][not(ancestor::field)]" position="after">
+                    <field name="x_plaza" attrs="{'invisible': [('x_is_visitor','=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='x_plaza'][not(ancestor::field)]" position="after">
+                    <field name="x_producto_p" attrs="{'invisible': [('x_is_visitor','=', False)]}"/>
+                </xpath>
+
+                <xpath expr="//field[@name='x_categoria'][not(ancestor::field)]" position="after">
+                    <!-- <field name="x_centro" attrs="{'invisible': [('x_is_patient','=',False)]} "/> -->
+                    <field name="x_etiquetas_id" attrs="{'invisible': [('x_is_patient','=',False)]}" widget="many2many_tags"/>
+                    <field name="x_fuente" string="Origen Lead" attrs="{'invisible': [('x_is_patient','=',False)]} "/>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <group>
+                        <field name="medico_interno" attrs="{'invisible': [('x_is_doctor','=', False)]}"/>
+                    </group>
+                </xpath>
+
+
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//notebook[1]" position="after">
+                    <notebook>
+                        <page string="Ficha del paciente">
+                            <group>
+                                <group>
+                                    <field name="x_antecedentes_cancer"/>
+                                    <field name="x_quien" attrs="{'readonly': [('x_antecedentes_cancer','=',False)]}"/>
+
+                                    <field name="x_cirugias_mamas"/>
+                                    <field name="x_cirugias_mamas_anio" attrs="{'readonly': [('x_cirugias_mamas','=',False)]}"/>
+
+                                    <field name="x_radiacion_mamas"/>
+                                    <field name="x_radiacion_mamas_anio" attrs="{'readonly': [('x_radiacion_mamas','=',False)]}"/>
+                                </group>
+                                <group>
+                                    <field name="x_tratamiento_hormonal"/>
+                                    <field name="x_tratamiento_hormonal_cuando" attrs="{'readonly': [('x_tratamiento_hormonal','=',False)]}"/>
+
+                                    <field name="x_secrecion_mamaria"/>
+                                    <field name="x_lunares_verrugas"/>
+
+                                    <field name="x_primera_vez"/>
+                                    <field name="x_estudios_anteriores" attrs="{'readonly': [('x_primera_vez','=',True)]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Estudios">
+                            <field name="x_services_id" widget="list"/>
+                        </page>
+                    </notebook>
+                </xpath>
+
+                <xpath expr="//notebook[1]" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                    <attribute name="required">False</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                    <attribute name="required">False</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='ref']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='x_is_patient']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='x_is_visitor']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='x_is_doctor']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+
+                <!-- <xpath expr="//notebook//page[@name='internal_notes']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+ -->
+
+
+                <!-- VISTA DE ESTADOS -->
+
+                        <!--
+                <xpath expr="//form//sheet" position="before">
+                    <header attrs="{'invisible': [('x_is_patient','=',False)]} ">
+                         <button name="action_potencial" type="object"
+                                string="Potencial cliente"
+                                />
+
+                        <button name="action_contactado" type="object"
+                                string="Contactado" attrs="{'invisible': [('x_estado','!=','potencial')]}"
+                                class="oe_highlight"/>
+
+
+                        <button name="action_negociacion" type="object"
+                                string="Negociación"
+                                attrs="{'invisible': [('x_estado','!=','contactado')]}" class="oe_highlight"/>
+
+                        <button name="action_spam" type="object"
+                                string="Spam" attrs="{'invisible': [('x_estado','!=','contactado')]}" />
+
+
+                        <button name="action_venta" type="object"
+                                string="Con venta"
+                                attrs="{'invisible': [('x_estado','!=','negociacion')]}" class="oe_highlight" />
+
+                        <button name="action_noventa" type="object"
+                                string="Sin venta" attrs="{'invisible': [('x_estado','!=','negociacion')]}" />
+
+
+                        <button name="action_pendiente" type="object"
+                                string="Pendiente"
+                                attrs="{'invisible': [('x_estado','!=','venta')]}"/>
+
+                        <button name="action_entregado" type="object"
+                                string="Entregado" attrs="{'invisible': [('x_estado','!=','pendiente')]}"
+                                class="oe_highlight"/>
+
+                        <button name="action_frecuente" type="object"
+                                string="Cliente frecuente" attrs="{'invisible': [('x_estado','!=','entregado')]}"
+                                class="oe_highlight"/>
+
+                        <field name="x_estado" widget="statusbar" clickable="True" groups="base.group_system"/>
+                    </header>
+                </xpath>
+                            -->
+
+                <!-- FIN VISTA DE ESTADOS -->
+
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="visitadores_tree_view">
+            <field name="name">Visitadores</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Visitadores">
+                    <!-- <field name="display_name" string="Nombre"/> -->
+                    <field name="x_Nombre" string="Nombre"/>
+                    <field name="function" invisible="1"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="x_plaza"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="medicos_tree_view">
+            <field name="name">Medicos</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Medicos">
+                    <!-- <field name="display_name" string="Nombre"/> -->
+                    <field name="name" string="Nombre"/>
+                    <field name="function" invisible="1"/>
+                    <field name="x_especialidad"/>
+                    <field name="x_matricula" />
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="medico_interno" />
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="medicos_search_view">
+            <field name="name">doctor.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <!-- <field name="display_name" string="Nombre"/> -->
+                    <field name="x_Nombre" string="Nombre"/>
+                    <field name="x_Apellido" string="Apellido"/>
+                    <field name="function" invisible="1"/>
+                    <field name="x_matricula" />
+                    <field name="medico_interno" />
+                    <!-- <field name="x_especialidad" /> -->
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pacientes_search_view">
+            <field name="name">patient.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <!-- <field name="display_name" string="Nombre"/> -->
+                    <field name="name" string="Nombre completo"/>
+                    <field name="x_Nombre" string="Nombre"/>
+                    <field name="x_Apellido" string="Apellido"/>
+                    <field name="x_DNI" />
+                    <!-- <field name="email"/> -->
+
+                    <filter name="x_informe" string="Estudios pendientes de entrega" domain="[('x_informe', '=', 'pendiente')]"/>
+
+                    <filter name="x_estado" string="Pacientes con venta" domain="[('x_estado', '=', 'venta')]"/>
+
+                    <filter name="x_estado" string="Pacientes sin venta" domain="[('x_estado', '=', 'noventa')]"/>
+
+                    <!-- SON DEL MODELO ESTUDIO Y NO PACIENTE. CHEQUEAR -->
+                    <!--  <filter name="validado" string="Estudios validados" domain="[('validado', '=', 'validado')]"/>
+
+                    <filter name="novalidado" string="Estudios no validados" domain="[('validado', '=', 'novalidado')]"/> -->
+
+                     <group string="Group By">
+
+                        <filter name="x_osocial" string="Obra Social" context="{'group_by': 'x_osocial'}"/>
+                        <filter name="x_fuente" string="Origen lead" context="{'group_by': 'x_fuente'}"/>
+                        <filter name="x_centro" string="Centro" context="{'group_by': 'x_centro'}"/>
+
+                        <filter name="x_estado" string="Estado" context="{'group_by': 'x_estado'}"/>
+
+                        <filter string="Mes" domain="[]" context="{'group_by':'create_date'}"/>
+
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="pacientes_tree_view">
+            <field name="name">Pacientes</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Pacientes">
+                    <field name="function" invisible="1"/>
+                    <field name="name" string="Nombre completo"/>
+                    <!-- <field name="x_Nombre" string="Nombre"/> -->
+                    <field name="x_Apellido" string="Apellido"/>
+                    <field name="x_DNI"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- PIVOT -->
+        <!--
+        -->
+        <record model="ir.ui.view" id="pacientes_pivot_view">
+            <field name="name">Pacientes</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <pivot string="Pacientes">
+                    <field name="name" string="Nombre completo"/>
+                    <!-- <field name="x_Apellido" string="Apellido"/>
+                    <field name="x_DNI"/>
+                    <field name="phone"/>
+                    <field name="email"/> -->
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Kanban para estados del paciente -->
+        <record model="ir.ui.view" id="patient_kanban_view">
+            <field name="name">patient.kanban</field>
+            <field name="model">res.partner</field>
+            <!-- <field name="domain">[('x_is_patient', '=', True)]</field> -->
+            <field name="arch" type="xml">
+                <kanban default_group_by="x_estado">
+                    <field name="x_estado"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                                <div t-attf-class="oe_kanban_content oe_kanban_global_click_edit">
+
+                                    Paciente:
+                                    <field name="name"/>
+                                    <!-- <field name="x_Apellido"/> -->
+                                    <br/>
+                                    Obra Social:
+                                    <field name="x_osocial"/>
+                                    <br/>
+                                    DNI:
+                                    <field name="x_DNI"/>
+                                </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- OBRAS SOCIALES Y COLEGIOS MEDICOS -->
+
+        <record  model="ir.ui.view" id="partner_osocial_form_view">
+            <field name="name">osocial.form</field>
+            <field name="model">res.partner</field>
+            <field name="mode">primary</field>
+            <!-- <field name="priority">99</field> -->
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <!-- <group>
+                     </group> -->
+                        <field name="x_is_osocial"/>
+                        <field name="x_is_colegio"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="osociales_tree_view">
+            <field name="name">Obras sociales y colegios médicos</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Obras sociales">
+                    <field name="name" string="Nombre"/>
+                    <field name="x_is_osocial" string="Obra social?"/>
+                    <field name="x_is_colegio" string="Colegio médico?"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="osociales_search_view">
+            <field name="name">osociales.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <!-- <field name="display_name" string="Nombre"/> -->
+                    <field name="name" string="Nombre"/>
+                    <field name="x_is_colegio" string="Colegios médicos"/>
+                    <field name="x_is_osocial" string="Obras sociales"/>
+
+                    <filter name="x_is_osocial" string="Obras sociales" domain="[('x_is_osocial', '=', True)]"/>
+                    <filter name="x_is_colegio" string="Colegios médicos" domain="[('x_is_colegio', '=', True)]"/>
+
+
+                    <!-- SON DEL MODELO ESTUDIO Y NO PACIENTE. CHEQUEAR -->
+                    <!--  <filter name="validado" string="Estudios validados" domain="[('validado', '=', 'validado')]"/>
+
+                    <filter name="novalidado" string="Estudios no validados" domain="[('validado', '=', 'novalidado')]"/> -->
+
+                     <group string="Group By">
+
+                        <filter name="x_is_osocial" string="Obra Social" context="{'group_by': 'x_is_osocial'}"/>
+                        <filter name="x_is_colegio" string="Colegios médicos" context="{'group_by': 'x_is_colegio'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+
+
+        <record model="ir.actions.act_window" id="product_template_action_product">
+            <field name="name">Servicios</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_services': 1, 'default_type': 'service'}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="product_normal_action">
+            <field name="name">Variantes de los servicios</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="product.product_search_form_view" />
+            <field name="context">{'search_default_services': 1, 'default_type': 'service'}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="visitors_action">
+            <field name="name">Visitadores médicos</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('visitadores_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('partner_patient_form_view')})]"/>
+            <field name="domain">[('x_is_visitor', '=', True)]</field>
+            <field name="context">{'default_x_is_visitor': 1,'search_default_x_is_visitor': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctors_action">
+            <field name="name">Médicos</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('medicos_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('partner_patient_form_view')})]"/>
+            <field name="search_view_id" ref="medicos_search_view" />
+            <field name="domain">[('x_is_doctor', '=', True)]</field>
+            <field name="context">{'default_x_is_doctor': 1,'search_default_x_is_doctor': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="patients_action">
+            <field name="name">Pacientes</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form,pivot</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('pacientes_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('partner_patient_form_view')})]"/>
+            <field name="search_view_id" ref="pacientes_search_view" />
+            <field name="kanban_view_id" ref="patient_kanban_view" />
+            <field name="domain">[('x_is_patient', '=', True)]</field>
+            <field name="context">{'default_x_is_patient': 1,'search_default_x_is_patient': 1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="osociales_action">
+            <field name="name">Obras sociales</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('osociales_tree_view')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('partner_osocial_form_view')})]"/>
+            <field name="view_id" ref="osociales_tree_view" />
+            <field name="search_view_id" ref="osociales_search_view" />
+            <field name="domain">['|',('x_is_colegio','=', True),('x_is_osocial', '=', True)]</field>
+
+            <!-- <field name="context">{'default_x_is_osocial': 1,'search_default_x_is_osocial': 1}</field> -->
+        </record>
+
+
+
+        <menuitem id="dashboard_datos_maestros" name="Datos Maestros"  web_icon="stock,static/description/icon.png"/>
+        <menuitem id="datos_maestros_menu" name="Maestro" parent="dashboard_datos_maestros" />
+        <menuitem id="pacientes_menu" name="Pacientes" parent="dashboard_datos_maestros" action="patients_action"/>
+
+
+        <menuitem id="maestro_servicios_menu" string="Servicios" parent="datos_maestros_menu" action="product_template_action_product" />
+        <menuitem id="maestro_variantes_menu" string="Variantes de los servicios" parent="datos_maestros_menu" action="product_normal_action" />
+        <menuitem id="maestro_visitadores_menu" string="Visitadores médicos" parent="datos_maestros_menu" action="visitors_action" />
+        <menuitem id="maestro_medicos_menu" string="Médicos" parent="datos_maestros_menu" action="doctors_action" />
+        <menuitem id="maestro_osociales_menu" string="Obras sociales" parent="datos_maestros_menu" action="osociales_action" />
+        <!-- menuitem id="maestro_pacientes_menu" string="Pacientes" parent="datos_maestros_menu" action="patients_action" /> -->
+
+
+
+
+    </data>
+</odoo>

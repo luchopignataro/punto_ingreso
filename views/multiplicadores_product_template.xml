@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <record id="product.product_template_tree_view" model="ir.ui.view">
+            <field name="name">product.template.product.tree</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree string="Product">
+                    <field name="sequence" widget="handle"/>
+                    <field name="default_code"/>
+                    <field name="name"/>
+
+                    <field name="multi_costo"/>
+                    <field name="multi_honor"/>
+
+                    <field name="list_price"/>
+                    <field name="standard_price"/>
+                    <field name="categ_id"/>
+                    <field name="type"/>
+                    <field name="uom_id" options="{'no_open': True, 'no_create': True}" groups="product.group_uom"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="product_template_honor_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <!-- <field name="mode">primary</field> -->
+            <!-- <field name="priority" eval="8" /> -->
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='standard_price_uom']" position="after">
+                    <field name="multi_costo"/>
+                    <field name="multi_honor"/>
+                </xpath>
+
+                <xpath expr="//page[@name='sales']" position="after">
+                   <!--  <page name="subservicio" string="Subservicios" groups="product.group_product_variant">
+                        <group>
+                         <div>
+                             <label for="inc_subservicio"/>
+                             <field name="inc_subservicio"/>
+                         </div>
+                            <field attrs="{'invisible': [('inc_subservicio', '=', False)]}" string="Servicios ligados" name="childs_id" editable="bottom" widget="many2many_list"/>
+                        </group>
+                    </page> -->
+                    <page name="variantes" string="Variantes" groups="product.group_product_variant">
+                        <field name="attribute_line_ids" widget="one2many_list" context="{'show_attribute': False}">
+                            <tree string="Variantes" editable="bottom">
+                                <field name="attribute_id"/>
+                                <field name="value_ids" widget="many2many_tags" options="{'no_create_edit': True}" domain="[('attribute_id', '=', attribute_id)]" context="{'default_attribute_id': attribute_id}"/>
+                            </tree>
+                        </field>
+                            <p class="oe_grey">
+                            <strong>Advertencia</strong>: añadir o quitar atributos borrará y recreará las variantes existentes y llevará a la perdida de sus posibles personalizaciones.
+                        </p>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

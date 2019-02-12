@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_estudio" model="report.paperformat">
+            <field name="name">Estudios A4</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">95</field>
+        </record>
+
+        <template id="report_estudios_data">
+            <t t-call="report.html_container">
+<!--                 <div style="padding-top: 200px;" class="page">
+                    <p style="padding-left: 100px; padding-right: 100px; padding-right: 100px;">CORRIENTES,</p>
+                    <br/>
+                    <p style="padding-left: 100px; padding-right: 100px;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                    <br/>
+                    <p style="padding-left: 100px; padding-right: 100px;">Me dirijo a Uds. para presentarles ............... correspondientes al mes de ....................... realizadas en MAMOGRAFIA DIGITAL S.A.</p>
+                    <br/>
+                    <p style="padding-left: 100px; padding-right: 100px;">El detalle es el siguiente:</p>
+                    <br/>
+                    <p style="padding-left: 100px; padding-right: 100px;">MAMOGRAFÍAS ........... $</p>
+                    <p style="padding-left: 100px; padding-right: 100px;">ECOGRAFÍAS ............ $</p>
+                    <br/>
+                    <p style="padding-left: 100px; padding-right: 100px;">TOTAL ................. $</p>
+                    <br/>
+                    <br/>
+                    <p style="padding-left: 100px; padding-right: 100px;">SON PESOS:</p>
+
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div style="padding-left: 300px; padding-top: 500px;">
+                        <p style="text-align: left;">MAMOGRAFIA DIGITAL S.A.</p>
+                        <p style="text-align: left;">CATAMARCA 744, 1ER PISO.</p>
+                        <p style="text-align: left;">CORRIENTES, CAPITAL.</p>
+                        <p style="text-align: left;">TEL.: 3794-606929</p>
+                        <p style="text-align: left;">CORREO ELECTRÓNICO: consultoriodrpepe@hotmail.com.ar</p>
+                    </div>
+                </div> -->
+                <div class="page">
+                    <div><span style="float:left;">MAMOGRAFIA DIGITAL S.A.</span> <span style="float:right;">Fecha: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></span></div>
+                    <br/>
+                    <div><span style="float:left;">Catamarca 744 - TEL: 3794-606929</span> <span style="float:right;">Hora: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%H:%M')"/></span></div>
+
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h3 style="text-align: center; font-weight: bold;">Estudios a facturar</h3>
+                    <p style="text-align: center;">Hasta el: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/></p>
+                    <br/>
+                    <br/>
+                    <h4><b>Obra social:</b> <span t-esc="osocial"></span></h4>
+                    <br/>
+                    <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <!-- <th style="padding: 3px 8px!important;">N°</th> -->
+                                    <th style="padding: 3px 8px!important;">Paciente</th>
+                                    <th style="padding: 3px 8px!important;">N° Afiliado</th>
+                                    <th style="padding: 3px 8px!important;">Fecha</th>
+                                    <th style="padding: 3px 8px!important;">Solicitante</th>
+                                    <th style="padding: 3px 8px!important;">Gastos</th>
+                                    <th style="padding: 3px 8px!important;">Honor.</th>
+                                    <th style="padding: 3px 8px!important;">Total</th>
+                                </tr>
+                            </thead>
+                    </table>
+
+                    <!-- <t t-foreach="docs_p" t-as="estudio">
+
+                        <t t-set="num" t-value="len(estudio)"/>
+                        <t t-set="id_patient" t-value="0"/>
+                        <t t-foreach="estudio" t-as="s">
+                            <t t-if="id_patient != s.patient_ids.id" >
+                                <div><strong t-esc="s.patient_ids.display_name"/></div>
+                            </t>
+                            <t t-else="">
+                                <div>mismo qnt </div>
+                            </t>
+                            <t t-set="id_patient" t-value="s.patient_ids.id"/>
+
+                        </t>
+                    </t> -->
+                    <t t-set="cant_informes" t-value="0"/>
+                    <t t-set="cant_estudios" t-value="0"/>
+                    <t t-set="total_gastos" t-value="0"/>
+                    <t t-set="total_honor" t-value="0"/>
+                    <t t-set="total_total" t-value="0"/>
+                    <t t-set="total_h_paciente" t-value="0"/>
+                    <t t-set="total_g_paciente" t-value="0"/>
+
+                    <t t-foreach="docs_p" t-as="o">
+                                   <!--  <span t-esc="type(o)"></span> -->
+                        <table class="table table-striped">
+                            <tbody>
+                                <t t-set="num" t-value="len(o)"/>
+                                <t t-set="id_patient" t-value="0"/>
+                                <t t-foreach="o" t-as="s">
+                                    <!-- <span t-esc="type(s)"></span> -->
+                                    <t t-if="id_patient != s.patient_ids.id" >
+                                        <tr>
+                                            <td  style="padding: 3px 8px!important;"><span t-field="s.patient_ids"></span></td>
+                                            <td  style="padding: 3px 8px!important;"><span t-field="s.patient_ids.x_DNI"></span></td>
+                                            <td  style="padding: 3px 8px!important;"><p t-field="s.input_date"></p></td>
+                                            <td  style="padding: 3px 8px!important;"><span t-field="s.doctor_ids"></span></td>
+                                            <td  style="padding: 3px 8px!important;"><span t-esc="s.total_g"></span></td>
+                                            <td  style="padding: 3px 8px!important;"><span t-field="s.total_h"></span></td>
+                                            <td  style="padding: 3px 8px!important;"><span>$</span><span t-field="s.total_t"></span></td>
+
+                                            <t t-set="total_total" t-value="total_total+s.tarifa"/>
+                                            <t t-set="cant_informes" t-value="cant_informes+1"/>
+
+                                        </tr>
+                                        <tr>
+                                            <!-- <td style="padding: 3px 8px!important;"><span>1</span></td> -->
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id.default_code"></span></td>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id"></span></td>
+                                            <td style="padding: 3px 8px!important;"><p t-field="s.doctor_ids_internos.x_matricula"></p></td>
+                                            <td style="padding: 3px 8px!important;"><p t-field="s.doctor_ids_internos"></p></td>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.galeno"></span></td>
+                                            <t t-set="total_honor" t-value="total_honor+s.galeno"/>
+                                            <td style="padding: 3px 8px!important;"><span>0,0</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id.default_code"></span></td>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id"></span></td>
+                                            <td style="padding: 3px 8px!important;"><p>00-0000001</p></td>
+                                            <td style="padding: 3px 8px!important;"><span>Centro diag. </span><span t-field="s.center"></span></td>
+                                            <td style="padding: 3px 8px!important;"><span t-esc="s.costos"></span></td>
+                                            <t t-set="total_gastos" t-value="total_gastos+s.costos"/>
+                                            <td style="padding: 3px 8px!important;"><span>0,0</span></td>
+                                            <t t-set="cant_estudios" t-value="cant_estudios+1"/>
+                                        </tr>
+                                    </t>
+                                    <t t-else="">
+
+                                        <!-- <t t-set="total_h_paciente" t-value="total_h_paciente + total_h"/>
+                                        <t t-set="total_g_paciente" t-value="total_g_paciente + total_g"/>
+ -->
+                                        <tr>
+
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id.default_code"></span></td>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id"></span></td>
+                                            <td style="padding: 3px 8px!important;"><p t-field="s.doctor_ids_internos.x_matricula"></p></td>
+                                            <td style="padding: 3px 8px!important;"><p t-field="s.doctor_ids_internos"></p></td>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.galeno"></span></td>
+                                            <t t-set="total_honor" t-value="total_honor+s.galeno"/>
+                                            <td style="padding: 3px 8px!important;"><span>0,0</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id.default_code"></span></td>
+                                            <td style="padding: 3px 8px!important;"><span t-field="s.service_id"></span></td>
+                                            <td style="padding: 3px 8px!important;"><p>00-0000001</p></td>
+                                            <td style="padding: 3px 8px!important;"><span>Centro diag. </span><span t-field="s.center"></span></td>
+                                            <td style="padding: 3px 8px!important;"><span t-esc="s.costos"></span></td>
+                                            <t t-set="total_gastos" t-value="total_gastos+s.costos"/>
+                                            <td style="padding: 3px 8px!important;"><span>0,0</span></td>
+                                            <t t-set="cant_estudios" t-value="cant_estudios+1"/>
+                                        </tr>
+                                    </t>
+                                    <t t-set="id_patient" t-value="s.patient_ids.id"/>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                    <table class="table">
+                        <tr>
+                            <td class="float-left"><span>Informes: </span><span t-esc="cant_informes"></span></td>
+                            <td class="float-left"><span>Imágenes: </span><span t-esc="cant_estudios"></span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="float-right"><span>Gastos: </span><span t-esc="total_gastos"></span></td>
+                            <td class="float-right"><span>Honor.: </span><span t-esc="total_honor"></span></td>
+                            <td class="float-right"><span>TOTAL: </span><span t-esc="total_gastos + total_honor"></span></td>
+                        </tr>
+                        <tr>
+                            <td class="float-left"><span>Porcentaje Incidencia: </span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="float-right"><span>% Gastos: </span><span t-esc="gastos_por"></span></td>
+                            <td class="float-right"><span>% Honor.: </span><span t-esc="honors_por"></span></td>
+                            <td class="float-right"><span>% Total: </span><span>100,00</span></td>
+                        </tr>
+                        <tr>
+                            <td class="float-left"><span>Promedio: </span></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="float-right"><span>Prom gastos: </span><span t-esc="gastos_prom"></span></td>
+                            <td class="float-right"><span>Prom honor.: </span><span t-esc="honors_prom"></span></td>
+                            <td class="float-right"><span>Prom total: </span><span t-esc="total_total/2"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+
+        <report
+            id="report_estudios_print"
+            model="puntoingreso.service"
+            string="Reporte de Estudios"
+            report_type="qweb-html"
+            paperformat="puntoingreso.paperformat_estudio"
+            name="puntoingreso.report_estudios_data"
+            file="puntoingreso.report_estudios_data"
+        />
+    </data>
+</odoo>

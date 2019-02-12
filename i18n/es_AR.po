@@ -1,0 +1,170 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* puntoingreso
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0+e-20180122\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-16 16:33-0300\n"
+"PO-Revision-Date: 2019-02-06 15:31-0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+"Last-Translator: \n"
+"Language: es_AR\n"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_active
+#: model:ir.ui.view,arch_db:puntoingreso.service_search_view
+msgid "Active"
+msgstr "Activo"
+
+#. module: puntoingreso
+#: model:ir.ui.view,arch_db:puntoingreso.service_search_view
+msgid "Active services"
+msgstr "Servicios activos"
+
+#. module: puntoingreso
+#: code:addons/puntoingreso/models/models.py:22
+#, python-format
+msgid "Copy of {}"
+msgstr "Copia de {}"
+
+#. module: puntoingreso
+#: code:addons/puntoingreso/models/models.py:24
+#, python-format
+msgid "Copy of {} ({})"
+msgstr "Copia de {} ({})"
+
+#. module: puntoingreso
+#: code:addons/puntoingreso/models/models.py:20
+#, python-format
+msgid "Copy of {}%"
+msgstr "Copia de {}%"
+
+#. module: puntoingreso
+#: model:ir.actions.act_window,help:puntoingreso.service_list_action
+msgid "Create the first service"
+msgstr "Crear el primer servicio"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_doctor_ids
+#: model:ir.ui.view,arch_db:puntoingreso.service_search_view
+msgid "Doctor"
+msgstr "Médico"
+
+#. module: puntoingreso
+#: model:ir.ui.view,arch_db:puntoingreso.service_search_view
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_id
+msgid "ID"
+msgstr "ID"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_input_date
+msgid "Input date"
+msgstr "Fecha del estudio"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_patient_ids
+#: model:ir.ui.view,arch_db:puntoingreso.service_search_view
+msgid "Patient"
+msgstr "Paciente"
+
+#. module: puntoingreso
+#: model:ir.ui.menu,name:puntoingreso.main_puntoingreso_menu
+#: model:ir.ui.menu,name:puntoingreso.puntoingreso_menu
+msgid "Punto ingreso"
+msgstr "Punto ingreso"
+
+#. module: puntoingreso
+#: model:ir.actions.act_window,name:puntoingreso.service_list_action
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_service_id
+msgid "Service"
+msgstr "Servicio"
+
+#. module: puntoingreso
+#: model:ir.ui.view,arch_db:puntoingreso.puntoingreso_service_form_view
+#: model:ir.ui.view,arch_db:puntoingreso.service_form_view
+msgid "Service Form"
+msgstr "Formulario de servicio"
+
+#. module: puntoingreso
+#: model:ir.ui.view,arch_db:puntoingreso.service_tree_view
+msgid "Service Tree"
+msgstr "Árbol de servicio"
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_service_date
+#: model:ir.ui.view,arch_db:puntoingreso.service_search_view
+msgid "Service date"
+msgstr "Fecha y hora"
+
+#. module: puntoingreso
+#: model:ir.ui.menu,name:puntoingreso.service_menu
+msgid "Services"
+msgstr "Servicios"
+
+#. module: puntoingreso
+#: code:addons/puntoingreso/models/models.py:135
+#, python-format
+msgid "The instructor is in the attendees, he cant"
+msgstr ""
+
+#. module: puntoingreso
+#: model:ir.model.fields,field_description:puntoingreso.field_puntoingreso_service_variant_id
+msgid "Variant"
+msgstr "Variante"
+
+#. module: puntoingreso
+#: model:ir.ui.view,arch_db:puntoingreso.puntoingreso_service_form_view
+#: model:ir.ui.view,arch_db:puntoingreso.service_form_view
+msgid "Variants"
+msgstr "Variantes"
+
+#. module: puntoingreso
+#: model:ir.model,name:puntoingreso.model_puntoingreso_service
+msgid "puntoingreso.service"
+msgstr ""

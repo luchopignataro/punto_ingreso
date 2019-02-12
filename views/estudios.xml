@@ -1,0 +1,235 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="puntoingreso_service_form_view">
+            <field name="name">service.form</field>
+            <field name="model">puntoingreso.service</field>
+            <field name="arch" type="xml">
+                    <form string="Service Form">
+                        <sheet>
+                            <header>
+                                <field name="state" widget="statusbar" clickable="True"/>
+                            </header>
+                            <group>
+                                <group>
+                                    <field name="center" string="Centro"/>
+                                    <!-- <field name="service_id" attrs="{'readonly':[('center', '=', False)]}"/> -->
+                                    <!-- <field name="service_id"/> -->
+                                    <!-- <field name="variant_id" attrs="{'readonly':[('service_id', '=', False)]}"/> -->
+                                    <field name="variant_id" string="Servicio"/>
+                                    <field name="patient_ids" domain="[('x_is_patient', '=', True)]" context="{'search_view_ref': 'puntoingreso.pacientes_search_view','form_view_ref':'puntoingreso.partner_patient_form_view','tree_view_ref':'puntoingreso.pacientes_tree_view','default_x_is_patient': 1}" />
+                                    <field name="doctor_ids" domain="[('x_is_doctor', '=', True)]" context="{'search_view_ref': 'puntoingreso.medicos_search_view','form_view_ref':'puntoingreso.partner_patient_form_view', 'tree_view_ref':'puntoingreso.medicos_tree_view','default_x_is_doctor': 1}"/>
+                                    <!-- <field name="doctor_ids_internos" context="{'search_view_ref': 'puntoingreso.medicos_search_view','form_view_ref':'puntoingreso.partner_patient_form_view', 'tree_view_ref':'puntoingreso.medicos_tree_view','default_x_is_doctor': 1}"/> -->
+                                    <field name="osocial" string="Obra Social" placeholder="Sin obra social" attrs="{'readonly':['|',('center', '=', False), ('variant_id', '=', False)]}" options="{'no_create_edit': True, 'no_create':True, 'no_open':True}"/>
+                                    <field name="n_afiliado" placeholder="--" attrs="{'readonly':[('osocial', '=', False)]}"/>
+                                    <!-- <field name="create_date" string="Fecha de carga" readonly="1" /> -->
+
+                                </group>
+                                <group>
+                                    <field name="input_date"/>
+                                    <field name="primera_vez"/>
+                                    <field name="turno"/>
+                                    <!-- <field name="facturado" attrs="{'readonly':True}"/>
+                                    <field name="validado" attrs="{'readonly':True}"/> -->
+                                    <field name="facturado" attrs="{'readonly':True}"/>
+                                    <field name="validado" attrs="{'readonly':True}"/>
+                                    <field name="active" invisible="1"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="service_list_action">
+            <field name="name">Service</field>
+            <field name="res_model">puntoingreso.service</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create the first service</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="nuevo_service_action">
+            <field name="name">Service</field>
+            <field name="res_model">puntoingreso.service</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="puntoingreso_service_form_view" />
+        </record>
+
+        <menuitem id="main_puntoingreso_menu" name="Punto ingreso" action="nuevo_service_action" web_icon="puntoingreso,static/description/icon.png"/>
+
+        <menuitem id="puntoingreso_menu" name="Punto ingreso"
+                  parent="main_puntoingreso_menu"/>
+
+        <menuitem id="service_menu" name="Services" parent="puntoingreso_menu"
+                  action="service_list_action"/>
+
+        <menuitem id="nuevo_service_menu" name="Nuevo" action="nuevo_service_action" parent="puntoingreso_menu"/>
+
+
+        <record model="ir.ui.view" id="service_tree_view">
+            <field name="name">service.tree</field>
+            <field name="model">puntoingreso.service</field>
+            <field name="arch" type="xml">
+
+
+           <!--       <field name="usuario_logueado" /> -->
+                <tree string="Service Tree">
+                    <field name="patient_ids"/>
+                    <field name="patient_dni" string="DNI Paciente"/>
+                    <field name="doctor_ids"/>
+                    <!-- <field name="service_id"/> -->
+                    <field name="variant_id"/>
+                    <field name="center" string="Centro"/>
+                    <field name="osocial" string="Obra Social"/>
+                    <field name="input_date" string="Fecha del estudio"/>
+                    <!-- <field name="service_date"/> -->
+                    <field name="state" string="Estado"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record model="ir.ui.view" id="service_search_view">
+            <field name="name">service.search</field>
+            <field name="model">puntoingreso.service</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="patient_ids"/>
+                    <field name="patient_dni"/>
+                    <field name="osocial" string="Obra social"/>
+                    <field name="input_date" string="Fecha del estudio"/>
+
+                    <filter name="active" string="Active services"
+                            domain="[('active', '=', True)]"/>
+
+                    <filter name="facturado" string="Factura vacia" domain="[('facturado', '=', False)]"/>
+                    <filter name="facturado" string="Factura individual" domain="[('facturado', '=', 'Factura individual')]"/>
+
+                    <filter name="validado" string="Validado" domain="[('validado', '=', True)]"/>
+                    <filter name="validado" string="No validado" domain="[('validado', '=', False)]"/>
+
+
+                    <!-- <filter name="service_date" string="Estudios de hoy"
+                            domain="[('service_date', '=', date.date.today().strftime(%d-%m-%Y))]"/>
+                    -->
+
+                        <filter name="service_date" string="Estudios de hoy"
+                            domain="[('service_date', '&gt;', (datetime.date.today()).strftime('%Y/%m/%d 00:00:00')),('service_date', '&lt;', (datetime.date.today()).strftime('%Y/%m/%d 23:59:59'))]"/>
+
+
+                    <group string="Group By">
+                        <!-- <filter name="active" string="Active" context="{'group_by': 'active'}"/> -->
+                        <filter name="osocial" string="Obra Social" context="{'group_by': 'osocial'}"/>
+                        <filter name="state" string="Estado" context="{'group_by': 'state'}"/>
+                        <filter name="service_date" string="Service date" context="{'group_by': 'service_date'}"/>
+                        <!-- <filter name="service_id" string="Service" context="{'group_by': 'service _id'}"/> -->
+                        <filter name="variant_id" string="Variante" context="{'group_by': 'variant_id'}"/>
+                        <filter name="doctor_ids" string="Doctor" context="{'group_by': 'doctor_ids'}"/>
+                        <filter name="patient_ids" string="Patient" context="{'group_by': 'patient_ids'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+
+        <!-- Kanban para estados del estudio -->
+        <record model="ir.ui.view" id="service_kanban_view">
+            <field name="name">service.search</field>
+            <field name="model">puntoingreso.service</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state">
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                                <div t-attf-class="oe_kanban_content oe_kanban_global_click_edit">
+                                    <!-- title -->
+                                    Paciente:
+                                    <field name="patient_ids"/>
+                                    <br/>
+                                    Estudio:
+                                    <!-- <field name="service_id"/> -->
+                                    <field name="variant_id"/>
+                                    <br/>
+                                    Estado:
+                                    <field name="state"/>
+                                </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+                <!-- <xpath expr="//field[@name='purcharse_ok']" position="after">
+                <field name="sub_servicio" />
+            </xpath> -->
+
+<!--       <record id="product_template_common_form_asd" model="ir.ui.view">
+        <field name="name">product.template.product.form</field>
+        <field name="model">product.template</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="8" />
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="subservicio" string="Subservicio" groups="product.group_product_variant">
+                    <group>
+                     <div>
+                         <label for="sub_servicio"/>
+                         <field name="sub_servicio"/>
+                     </div>
+                    </group>
+                    <group>
+                        <field colspan="6" string="Servicio principal" name="parent_id"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//form" position="attributes">
+                <attribute name="name">Product Template</attribute>
+            </xpath>
+            <field name="type" position="after">
+                <field name="default_code" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+                <field name="barcode" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+            </field>
+
+            <div name="button_box" position="inside">
+                <button name="%(product.product_variant_action)d" type="action"
+                    icon="fa-sitemap" class="oe_stat_button"
+                    attrs="{'invisible': [('product_variant_count', '&lt;=', 1)]}"
+                    groups="product.group_product_variant">
+                    <field string="Variantes" name="product_variant_count" widget="statinfo" />
+                </button>
+            </div>
+
+            <xpath expr="//page[@name='sales']" position="after">
+                <page name="variants" string="Variantes" groups="product.group_product_variant">
+                    <field name="attribute_line_ids" widget="one2many_list" context="{'show_attribute': False}">
+                        <tree string="Variantes" editable="bottom">
+                            <field name="attribute_id"/>
+                            <field name="value_ids" widget="many2many_tags" options="{'no_create_edit': True}" domain="[('attribute_id', '=', attribute_id)]" context="{'default_attribute_id': attribute_id}"/>
+                        </tree>
+                    </field>
+                        <p class="oe_grey">
+                        <strong>Warning</strong>: adding or deleting attributes
+                        will delete and recreate existing variants and lead
+                        to the loss of their possible customizations.
+                    </p>
+                </page>
+            </xpath>
+
+
+        </field>
+    </record> -->
+
+
+
+    </data>
+</odoo>

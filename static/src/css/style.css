@@ -1,0 +1,20 @@
+.o_form_view .o_form_statusbar > .o_statusbar_status > .o_arrow_button {
+    min-height: 33px;
+    font-size: 10.5px;
+    font-weight: bold;
+    position: relative;
+    padding-left: 22px;
+    color: #a8a8a8;
+    -webkit-transition: all 0.2s ease 0s;
+    -moz-transition: all 0.2s ease 0s;
+    -o-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+}
+
+.oe_button_box.o_not_full button:first-child, .oculto{
+    display: none;
+}
+
+.o_content .o_form_sheet_bg .o_form_sheet .o_group .o_inner table:first-child tbody tr:nth-child(2) {
+    display: none;
+}
